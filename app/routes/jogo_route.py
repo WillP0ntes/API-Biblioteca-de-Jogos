@@ -5,7 +5,10 @@ from app.database.database import SessionLocal
 from app.models.jogos_schema import jogoSchema
 from app.services.jogo_service import (
     listar_jogos,
-    criar_jogo
+    listar_jogo,
+    criar_jogo,
+    atualizar_jogo,
+    deletar_jogo
 )
 
 router = APIRouter()
@@ -26,6 +29,14 @@ def get_jogos(
 ):
     return listar_jogos(db)
 
+# GET by id
+@router.get("/jogos/{id}")
+def get_jogos(
+    id: int,
+    db: Session = Depends(get_db)
+):
+    return listar_jogo(db, id)
+
 # POST
 @router.post("/jogos")
 def post_jogo(
@@ -33,3 +44,18 @@ def post_jogo(
     db: Session = Depends(get_db)
 ):
     return criar_jogo(db, jogo)
+
+@router.delete("/jogos/{id}")
+def delet_jogos(
+    id: int,
+    db: Session = Depends(get_db)
+):
+    return deletar_jogo(db, id)
+
+@router.put("/jogos/{id}")
+def atualizar_jogos(
+    id: int,
+    jogo_request: jogoSchema,
+    db: Session = Depends(get_db)
+):
+    return atualizar_jogo(db, id, jogo_request)

@@ -5,6 +5,9 @@ from app.models.jogos_schema import jogoSchema
 def listar_jogos(db: Session):
     return db.query(Jogo).all()
 
+def listar_jogo(db: Session, id: int):
+    return db.query(Jogo).get({"id": id})
+
 def criar_jogo(db: Session, jogo: Jogo):
     novo_jogo = Jogo(
         nome = jogo.nome,
@@ -18,3 +21,33 @@ def criar_jogo(db: Session, jogo: Jogo):
     db.refresh(novo_jogo)
 
     return novo_jogo
+
+def deletar_jogo(db, id):
+
+    jogo = db.query(Jogo).filter(Jogo.id == id).first()
+
+    if not jogo:
+        return {"erro": "Jogo não encontrado"}
+
+    db.delete(jogo)
+    db.commit()
+
+    return {"mensagem": "Jogo removido com sucesso"}
+
+def atualizar_jogo(db, id, jogo_request):
+
+    jogo = db.query(Jogo).filter(Jogo.id == id).first()
+
+    if not jogo:
+        return {"erro": "Jogo não encontrado"}
+
+    # atualizar os campos aqui como por exemplo:
+    
+    jogo.nome = jogo_request.nome,
+    jogo.descricao = jogo_request.descricao,
+    jogo.desenvolvedor = jogo_request.desenvolvedor,
+    jogo.lancamento = jogo_request.lancamento
+
+    db.commit()
+
+    return jogo
