@@ -1,4 +1,5 @@
 from sqlalchemy import Column, Integer, String, Date
+from sqlalchemy.orm import relationship
 from app.database.database import Base
 
 class Jogo(Base):
@@ -9,3 +10,8 @@ class Jogo(Base):
     descricao = Column(String(250))
     desenvolvedor = Column(String(40))
     lancamento = Column(Date)
+
+    estoques = relationship(
+        "Estoque",
+        back_populates="jogo"
+    )
