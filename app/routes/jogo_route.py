@@ -7,8 +7,8 @@ from app.services.jogo_service import (
     listar_jogos,
     listar_jogo,
     criar_jogo,
-    atualizar_jogo,
-    deletar_jogo
+    deletar_jogo,
+    atualizar_jogo
 )
 
 jogo_router = APIRouter()
@@ -45,6 +45,7 @@ def post_jogo(
 ):
     return criar_jogo(db, jogo)
 
+# DELETE
 @jogo_router.delete("/jogos/{id}")
 def delet_jogos(
     id: int,
@@ -52,6 +53,7 @@ def delet_jogos(
 ):
     return deletar_jogo(db, id)
 
+# UPDATE
 @jogo_router.put("/jogos/{id}")
 def atualizar_jogos(
     id: int,

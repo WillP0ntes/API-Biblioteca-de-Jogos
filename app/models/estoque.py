@@ -7,7 +7,7 @@ class Estoque(Base):
 
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     quantidade = Column(Integer)
-    ativo = Column(Boolean)
+    status = Column(Boolean)
     data_atualizacao = Column(Date)
 
     jogo_id = Column(

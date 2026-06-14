@@ -23,7 +23,6 @@ def criar_jogo(db: Session, jogo: Jogo):
     return novo_jogo
 
 def deletar_jogo(db, id):
-
     jogo = db.query(Jogo).filter(Jogo.id == id).first()
 
     if not jogo:
@@ -41,11 +40,9 @@ def atualizar_jogo(db, id, jogo_request):
     if not jogo:
         return {"erro": "Jogo não encontrado"}
 
-    # atualizar os campos aqui como por exemplo:
-    
-    jogo.nome = jogo_request.nome,
-    jogo.descricao = jogo_request.descricao,
-    jogo.desenvolvedor = jogo_request.desenvolvedor,
+    jogo.nome = jogo_request.nome
+    jogo.descricao = jogo_request.descricao
+    jogo.desenvolvedor = jogo_request.desenvolvedor
     jogo.lancamento = jogo_request.lancamento
 
     db.commit()
