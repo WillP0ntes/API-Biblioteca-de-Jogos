@@ -11,7 +11,7 @@ from app.services.jogo_service import (
     deletar_jogo
 )
 
-router = APIRouter()
+jogo_router = APIRouter()
 
 # conexão/sessão
 def get_db():
@@ -23,14 +23,14 @@ def get_db():
         db.close()
 
 # GET
-@router.get("/jogos")
+@jogo_router.get("/jogos")
 def get_jogos(
     db: Session = Depends(get_db)
 ):
     return listar_jogos(db)
 
 # GET by id
-@router.get("/jogos/{id}")
+@jogo_router.get("/jogos/{id}")
 def get_jogos(
     id: int,
     db: Session = Depends(get_db)
@@ -38,21 +38,21 @@ def get_jogos(
     return listar_jogo(db, id)
 
 # POST
-@router.post("/jogos")
+@jogo_router.post("/jogos")
 def post_jogo(
     jogo: jogoSchema,
     db: Session = Depends(get_db)
 ):
     return criar_jogo(db, jogo)
 
-@router.delete("/jogos/{id}")
+@jogo_router.delete("/jogos/{id}")
 def delet_jogos(
     id: int,
     db: Session = Depends(get_db)
 ):
     return deletar_jogo(db, id)
 
-@router.put("/jogos/{id}")
+@jogo_router.put("/jogos/{id}")
 def atualizar_jogos(
     id: int,
     jogo_request: jogoSchema,

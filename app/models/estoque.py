@@ -18,5 +18,5 @@ class Estoque(Base):
 
     jogos = relationship(
         "Jogo",
-        back_populates="estoque"
+        back_populates="estoques"
     )
