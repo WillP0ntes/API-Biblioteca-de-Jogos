@@ -1,11 +1,16 @@
 from sqlalchemy.orm import Session
 from app.models.estoque import Estoque
 from app.models.estoques_schema import estoqueSchema
+from fastapi import FastAPI, HTTPException
 
 def listar_estoques(db: Session):
     return db.query(Estoque).all()
 
 def listar_estoque(db: Session, id: int):
+    estoque = db.query(Estoque).filter(Estoque.id == id).first()
+    
+    if not estoque:
+        raise HTTPException(status_code=404, detail="Estoque não encontrado")
     return db.query(Estoque).get({"id": id})
 
 def criar_estoque(db: Session, estoque: Estoque):
@@ -26,7 +31,7 @@ def deletar_estoque(db, id):
     estoque = db.query(Estoque).filter(Estoque.id == id).first()
 
     if not estoque:
-        return {"erro": "Estoque não encontrado"}
+        raise HTTPException(status_code=404, detail="Estoque não encontrado")
 
     db.delete(estoque)
     db.commit()
@@ -34,11 +39,10 @@ def deletar_estoque(db, id):
     return {"mensagem": "Estoque removido com sucesso"}
 
 def atualizar_estoque(db, id, estoque_request):
-
     estoque = db.query(Estoque).filter(Estoque.id == id).first()
 
     if not estoque:
-        return {"erro": "Estoque não encontrado"}
+        raise HTTPException(status_code=404, detail="Estoque não encontrado")
     
     estoque.quantidade = estoque_request.quantidade
     estoque.status = estoque_request.status
